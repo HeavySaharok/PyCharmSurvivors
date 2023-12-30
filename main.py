@@ -1,4 +1,4 @@
-# from start_screen import *
+from start_screen import *
 import os
 import pygame
 
@@ -7,7 +7,6 @@ pygame.init()
 FPS = 60
 WIDTH = 600
 HEIGHT = 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 all_sprites = pygame.sprite.Group()
@@ -81,6 +80,8 @@ man = AnimatedSprite(load_image("man_1.png"), 8, 1, 150, 150)
 direct = []
 lr = 1
 running = True
+start_screen()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 while running:
     for event in pygame.event.get():

@@ -33,6 +33,7 @@ def terminate():
     pygame.quit()
     sys.exit()
 
+
 def start_screen():
     intro_text = ['']
     #
