@@ -65,14 +65,14 @@ class AnimatedSprite(pygame.sprite.Sprite):
                 if lr == -1:
                     lr = 1
                     self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
-                self.image = self.frames[self.cur_frame]
+                    self.image = self.frames[self.cur_frame]
                 self.rect.x += self.spd
 
             elif key == pygame.K_LEFT:
                 if lr == 1:
                     lr = -1
                     self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
-                self.image = self.frames[self.cur_frame]
+                    self.image = self.frames[self.cur_frame]
                 self.rect.x -= self.spd
 
 
@@ -89,6 +89,7 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN and event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
             direct.append(event.key)
+            print(direct)
         if event.type == pygame.KEYUP and event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
             direct.pop(direct.index(event.key))
 
