@@ -1,6 +1,7 @@
 from start_screen import *
 import os
 import pygame
+from game_over import game_over
 
 pygame.init()
 
@@ -101,4 +102,7 @@ while running:
     pygame.display.flip()
     clock.tick(FPS)
 
+# Вызов экрана конца игры. Пока что только добавляется игрок Vasya.
+pygame.display.set_mode((800, 500))
+game_over('Vasya', 1313)
 pygame.quit()

@@ -42,11 +42,19 @@ class Database:
         :param condition: условие, при котором забираем значение
         :return: кортеж с данными(вроде как)
         """
+        if not condition:
+            return self.cur.execute(f'SELECT {column} from {tab_name}').fetchall()
+        else:
+            return self.cur.execute(f'SELECT {column} from {tab_name}'
+                                    f'WHERE {condition}').fetchall()
 
 
-# # Пример. Создаём базу с видами картошки.
-# Potatoes = Database('potatoes.sqlite')
-# Potatoes.new_table('species', 'id INTEGER PRIMARY KEY', 'name TEXT NOT NULL')
-# Potatoes.insert('species', ('id', 'name'), ('1', 'Батат'))
-# Potatoes.db.commit()
-# Potatoes.db.close()
+# # Пример. Создаём базу с парочкой игроков.
+# Players = Database('players.sqlite')
+# Players.new_table('scores', 'id INTEGER PRIMARY KEY', 'name TEXT NOT NULL', 'score INTEGER')
+# Players.insert('scores', ('id', 'name', 'score'), ('1', 'Steve', '2000'))
+# Players.insert('scores', ('id', 'name', 'score'), ('2', 'Alex', '1500'))
+# Players.insert('scores', ('id', 'name', 'score'), ('3', 'Eva', '1700'))
+# Players.db.commit()
+# Players.db.close()
+
