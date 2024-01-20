@@ -80,7 +80,7 @@ man = AnimatedSprite(load_image("man_1.png"), 8, 1, 150, 150)
 direct = []
 lr = 1
 running = True
-start_screen()
+start_screen(0, 'username')
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 while running:
