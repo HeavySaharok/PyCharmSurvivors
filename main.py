@@ -1,6 +1,8 @@
+from map import load_level, Map
 from start_screen import *
 import os
 import pygame
+from tiles import tiles_group
 
 pygame.init()
 
@@ -83,6 +85,11 @@ running = True
 start_screen()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
+# Карта
+level_map = [list(el) for el in load_level('map.map')]
+mape = Map(level_map)
+hero, level_x, level_y = mape.generate_level()
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -97,6 +104,7 @@ while running:
     if direct:
         all_sprites.update()
         man.move(direct)
+    tiles_group.draw(screen)
     all_sprites.draw(screen)
     pygame.display.flip()
     clock.tick(FPS)
