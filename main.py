@@ -1,6 +1,5 @@
 from map import load_level, Map
 from start_screen import *
-import os
 import pygame
 from tiles import tiles_group
 
@@ -12,23 +11,6 @@ HEIGHT = 600
 clock = pygame.time.Clock()
 
 all_sprites = pygame.sprite.Group()
-
-
-def load_image(name, color_key=None):
-    fullname = os.path.join('data', name)
-    try:
-        image = pygame.image.load(fullname)
-    except pygame.error as message:
-        print('Cannot load image:', name)
-        raise SystemExit(message)
-
-    if color_key is not None:
-        if color_key == -1:
-            color_key = image.get_at((0, 0))
-        image.set_colorkey(color_key)
-    else:
-        image = image.convert_alpha()
-    return image
 
 
 class AnimatedSprite(pygame.sprite.Sprite):

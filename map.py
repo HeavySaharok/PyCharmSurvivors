@@ -1,5 +1,6 @@
 # Код карты
-from tiles import Tile, Player
+from tiles import Tile
+from entities import Player
 
 
 def load_level(filename):
