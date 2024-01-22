@@ -3,11 +3,11 @@ import pygame
 from our_tools import load_image
 
 tile_images = {
-    'wall': load_image('box.png'),
-    'empty': load_image('grass.png')
+    'wall': load_image('wall.png'),
+    'empty': load_image('floor.png')
 }
 
-tile_width = tile_height = 50
+tile_width = tile_height = 64
 
 tiles_group = pygame.sprite.Group()
 

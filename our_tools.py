@@ -2,11 +2,12 @@ import os
 import pygame
 
 all_sprites = pygame.sprite.Group()  # специально группа тут, чтобы не было цикличного импортирования
+pygame.init()
+pygame.display.set_mode((600, 400))
 
 
 def load_image(name, color_key=None):
-    pygame.init()
-    pygame.display.set_mode((800, 600))
+
     fullname = os.path.join('data', name)
     try:
         image = pygame.image.load(fullname)

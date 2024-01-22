@@ -73,8 +73,8 @@ def start_screen():
 
 
 tile_images = {
-    'wall': load_image('box.png'),
-    'empty': load_image('grass.png')
+    'wall': load_image('wall.png'),
+    'empty': load_image('floor.png')
 }
 
 player_image = load_image('mario.png')

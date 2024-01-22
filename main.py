@@ -2,7 +2,6 @@ from map import load_level, Map
 from entities import AnimatedSprite
 from our_tools import load_image, all_sprites
 from start_screen import *
-import os
 import pygame
 from game_over import game_over
 from tiles import tiles_group
@@ -10,23 +9,23 @@ from tiles import tiles_group
 pygame.init()
 
 FPS = 60
-WIDTH = 600
-HEIGHT = 600
 clock = pygame.time.Clock()
 
-man = AnimatedSprite(load_image("man_1.png"), 8, 1, 150, 150)
+man = AnimatedSprite(load_image("ninja_walking.png"), 4, 4, 64, 64)
 direct = []
 running = True
 username = start_screen()
 score = 5000
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-level_name = 'level 0'
-pygame.display.set_caption(level_name)
 
 # Карта
 level_map = [list(el) for el in load_level('map.map')]
 mape = Map(level_map)
 hero, level_x, level_y = mape.generate_level()
+
+# экран
+screen = pygame.display.set_mode(mape.size)
+level_name = 'level 0'
+pygame.display.set_caption(level_name)
 
 while running:
     for event in pygame.event.get():
