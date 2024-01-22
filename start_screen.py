@@ -2,7 +2,6 @@ import sys
 import pygame
 
 
-
 class Levels:
     # создание кнопок
     def __init__(self, username):
@@ -15,7 +14,8 @@ class Levels:
     def render(self, screen):
         pygame.draw.rect(screen, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
         font = pygame.font.Font(None, 25)
-        screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')), (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
+        screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')),
+                    (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
 
         # for y in range(self.height):
         #     for x in range(self.width):
@@ -26,7 +26,6 @@ class Levels:
         #         pygame.draw.rect(screen, pygame.Color(255, 255, 255), (
         #             x * self.cell_size + self.left, y * self.cell_size + self.top - 50, self.cell_size,
         #             self.cell_size), 3)
-
 
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
@@ -43,7 +42,6 @@ class Levels:
 
         #     вызов игрового окна
 
-
         # cell = self.get_cell(mouse_pos)
         # if cell:
         #     print(f'now level = {sum(cell)}, username = {self.username}')
@@ -57,13 +55,13 @@ def terminate():
 
 def start_screen():
     '''
-    Вызвать из начала игры один раз
-    :return: username
+    Вызвать из начала игры один раз:
+    return: username
     '''
     intro_text = [" ", "",
                   "Введите Ваше имя:", "",
                   "побеждайте противников", ''
-                  "проходите уровни"
+                                            "проходите уровни"
                   ]
     screen.fill(pygame.Color('black'))
     fon = pygame.image.load('data/logo-2.png')
@@ -139,9 +137,7 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 50
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption('Binary Game 2')
-
+pygame.display.set_caption('PyCharm Survivors')
 
 if __name__ == '__main__':
-
     start_screen()
