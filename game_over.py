@@ -6,8 +6,8 @@ from database import Database
 FPS = 50
 pygame.init()
 size = WIDTH, HEIGHT = 800, 500
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption('Game over')
+# screen = pygame.display.set_mode(size)    если это вне функции или класса, то влияет на всю игру
+# pygame.display.set_caption('Game over')   поэтому это нужно сувать в функцию
 clock = pygame.time.Clock()
 
 
@@ -17,6 +17,8 @@ def terminate():
 
 
 def game_over(name, score):
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption('Game over')
     result_text = []
     players = Database('players.sqlite')
     players.insert('scores', ('name', 'score'), (name, score))
