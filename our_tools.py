@@ -5,6 +5,8 @@ all_sprites = pygame.sprite.Group()  # специально группа тут,
 
 
 def load_image(name, color_key=None):
+    pygame.init()
+    pygame.display.set_mode((800, 600))
     fullname = os.path.join('data', name)
     try:
         image = pygame.image.load(fullname)
