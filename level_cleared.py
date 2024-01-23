@@ -5,11 +5,20 @@ pygame.init()
 
 
 def terminate():
+    '''
+    Закрываем лавочку
+    :return:
+    '''
     pygame.quit()
     sys.exit()
 
 
-def level_cleared(score):
+def level_cleared(score: int):
+    '''
+    Выводит поздравление с прохождением уровня и показывает кол-во очков.
+    :param score: кол-во очков ирока
+    :return:
+    '''
     respar = 128
     size = w, h = 800, 500
     screen = pygame.display.set_mode(size)
