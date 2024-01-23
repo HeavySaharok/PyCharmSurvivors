@@ -43,8 +43,10 @@ class Player(Entity):
         super().__init__(sheet, columns, rows, x, y)
         self.map_size = map_size
         self.spd = 4
+        self.standing = 0
 
     def move(self, keys):
+        self.standing = 0
         for key in keys:
 
             if key == pygame.K_UP and self.rect.top >= 0:
@@ -87,7 +89,10 @@ class Player(Entity):
                 raise 'KEK'
 
     def update(self):
-        if self.times % 4 == 0:
+        if self.standing:
+            self.cur_frame = 0
+            self.image = self.frames[4 * self.dir + self.cur_frame]
+        elif self.times % 4 == 0:
             self.cur_frame = (self.cur_frame + 1) % 4
             self.image = self.frames[4 * self.dir + self.cur_frame]
             self.times = 0
