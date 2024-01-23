@@ -20,7 +20,7 @@ level_name = 'test.map'
 # Карта
 level_map = [list(el) for el in load_level(level_name)]
 mape = Map(level_map)
-hero, level_x, level_y = mape.generate_level()
+hero, monsters, level_x, level_y = mape.generate_level()
 
 # экран
 screen = pygame.display.set_mode(mape.size)
@@ -42,6 +42,8 @@ while running:
         hero.move(direct)
     else:
         hero.standing = 1
+    for monster in monsters:
+        monster.move()
     all_sprites.update()
     tiles_group.draw(screen)
     obstacle_group.draw(screen)

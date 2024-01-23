@@ -1,6 +1,6 @@
 #  Классы различных сущностей находятся тут
 import pygame
-from our_tools import all_sprites, collision_test, next_level
+from our_tools import all_sprites, collision_test, next_level, load_image
 from tiles import obstacle_group, finish_group, error_group
 
 pygame.init()
@@ -9,7 +9,8 @@ entity_group = pygame.sprite.Group()
 
 
 class Entity(pygame.sprite.Sprite):
-
+    """Родовой класс всех созданий наших, тут множество переменных, анимация и наследование от спрайта
+    А ещё оно само вырезает спрайты из спрайт-листа"""
     def __init__(self, sheet, columns, rows, x, y):
         super().__init__(all_sprites, entity_group)
         self.times = 0
@@ -38,7 +39,10 @@ class Entity(pygame.sprite.Sprite):
 
 
 class Player(Entity):
-
+    """
+    Игрок, мы можем им управлять!
+    (НЕ рекомендую делать больше одного игрока)
+    """
     def __init__(self, sheet, columns, rows, x, y, map_size):
         super().__init__(sheet, columns, rows, x, y)
         self.map_size = map_size
@@ -97,3 +101,24 @@ class Player(Entity):
             self.image = self.frames[4 * self.dir + self.cur_frame]
             self.times = 0
         self.times += 1
+
+
+class WarningEntity(Entity):
+    """Наш враг, суть которого в том что он всегда знает где мы и медленно следует за нами... очень медленно."""
+    def __init__(self, x, y, victim):
+        super().__init__(load_image('warning.png'), 1, 1, x, y)
+        error_group.add(self)
+        self.victim = victim
+        self.spd = 1
+        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
+
+    def move(self):
+        x, y = self.victim.rect.center  # узнаём координаты жертвы
+        dir_x = x - self.rect.center[0]
+        dir_y = y - self.rect.center[1]
+        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
+        # делим число на его модуль, чтобы узнать направление и умножаем на скорость
+        if dir_x:
+            self.rect.x += dir_x // abs(dir_x) * self.spd
+        if dir_y:
+            self.rect.y += dir_y // abs(dir_y) * self.spd
