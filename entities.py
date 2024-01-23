@@ -15,7 +15,8 @@ class Entity(pygame.sprite.Sprite):
         self.times = 0
         self.spd = 2
         self.frames = []
-        self.lr = 1
+        self.dir = 1
+        self.ud = 0
         self.cut_sheet(sheet, columns, rows)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
@@ -25,7 +26,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns, sheet.get_height() // rows)
         for j in range(rows):
             for i in range(columns):
-                frame_location = (self.rect.w * i, self.rect.h * j)
+                frame_location = (self.rect.w * j, self.rect.h * i)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
     def update(self):
@@ -42,28 +43,30 @@ class Player(Entity):
         super().__init__(sheet, columns, rows, x, y)
         self.map_size = map_size
         self.spd = 4
+        self.standing = 0
 
     def move(self, keys):
+        self.standing = 0
         for key in keys:
 
             if key == pygame.K_UP and self.rect.top >= 0:
+                if self.dir != 1:
+                    self.dir = 1
                 self.rect.y -= self.spd
 
             elif key == pygame.K_DOWN and self.rect.bottom <= self.map_size[1]:
+                if self.dir != 0:
+                    self.dir = 0
                 self.rect.y += self.spd
 
             elif key == pygame.K_RIGHT and self.rect.right <= self.map_size[0]:
-                if self.lr == -1:
-                    self.lr = 1
-                    self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
-                    self.image = self.frames[self.cur_frame]
+                if self.dir != 3:
+                    self.dir = 3
                 self.rect.x += self.spd
 
             elif key == pygame.K_LEFT and self.rect.left >= 0:
-                if self.lr == 1:
-                    self.lr = -1
-                    self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
-                    self.image = self.frames[self.cur_frame]
+                if self.dir != 2:
+                    self.dir = 2
                 self.rect.x -= self.spd
 
             if hits := collision_test(self.rect, obstacle_group):
@@ -84,3 +87,13 @@ class Player(Entity):
             if collision_test(self.rect, error_group):
                 print('Умер')
                 raise 'KEK'
+
+    def update(self):
+        if self.standing:
+            self.cur_frame = 0
+            self.image = self.frames[4 * self.dir + self.cur_frame]
+        elif self.times % 4 == 0:
+            self.cur_frame = (self.cur_frame + 1) % 4
+            self.image = self.frames[4 * self.dir + self.cur_frame]
+            self.times = 0
+        self.times += 1

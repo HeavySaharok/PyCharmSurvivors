@@ -39,8 +39,10 @@ while running:
 
     screen.fill(pygame.Color("black"))
     if direct:
-        all_sprites.update()
         hero.move(direct)
+    else:
+        hero.standing = 1
+    all_sprites.update()
     tiles_group.draw(screen)
     obstacle_group.draw(screen)
     entity_group.draw(screen)
