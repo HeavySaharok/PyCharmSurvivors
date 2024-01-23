@@ -1,7 +1,7 @@
 #  Классы различных сущностей находятся тут
 import pygame
-from our_tools import all_sprites, load_image
-from tiles import tile_width, tile_height
+from our_tools import all_sprites, collision_test, next_level
+from tiles import obstacle_group, finish_group, error_group
 
 pygame.init()
 
@@ -41,10 +41,11 @@ class Player(Entity):
     def __init__(self, sheet, columns, rows, x, y, map_size):
         super().__init__(sheet, columns, rows, x, y)
         self.map_size = map_size
-        self.spd = 10
+        self.spd = 4
 
     def move(self, keys):
         for key in keys:
+
             if key == pygame.K_UP and self.rect.top >= 0:
                 self.rect.y -= self.spd
 
@@ -64,3 +65,23 @@ class Player(Entity):
                     self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
                     self.image = self.frames[self.cur_frame]
                 self.rect.x -= self.spd
+
+            if hits := collision_test(self.rect, obstacle_group):
+                for elem in hits:
+                    if key == pygame.K_UP:
+                        self.rect.top = elem.rect.bottom
+                    if key == pygame.K_DOWN:
+                        self.rect.bottom = elem.rect.top
+                    if key == pygame.K_LEFT:
+                        self.rect.left = elem.rect.right
+                    if key == pygame.K_RIGHT:
+                        self.rect.right = elem.rect.left
+
+            if collision_test(self.rect, finish_group):
+                next_level('name')
+                print('finish')
+
+            if collision_test(self.rect, error_group):
+                print('Умер')
+                raise 'KEK'
+

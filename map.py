@@ -1,6 +1,6 @@
 # Код карты
 from our_tools import load_image
-from tiles import Tile, tile_width, tile_height, Wall
+from tiles import *
 from entities import Player, Entity
 
 
@@ -29,6 +29,10 @@ class Map:
                 Tile('empty', x, y)
                 if self.level[y][x] == '#':
                     Wall(x, y)
+                elif self.level[y][x] == '!':
+                    Error(x, y)
+                elif self.level[y][x] == '^':
+                    Finish(x, y)
                 elif self.level[y][x] == '@':
                     new_player = Player(load_image("ninja_walking.png"), 4, 4,
                                         x * tile_width, y * tile_height, self.size)
