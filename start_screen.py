@@ -4,41 +4,61 @@ import pygame
 
 class Levels:
     # создание кнопок
-    def __init__(self, username):
+    def __init__(self, width, height, username):
+        self.height = height
+        self.width = width
         self.username = username
         # значения по умолчанию
-        self.left = 480
-        self.top = 50
-        self.cell_size = 150
+        self.left = 55
+        self.top = 300
+        self.cell_size = 85
 
     def render(self, screen):
-        pygame.draw.rect(screen, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
-        font = pygame.font.Font(None, 25)
-        screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')),
-                    (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
-
-        # for y in range(self.height):
-        #     for x in range(self.width):
-        #         font = pygame.font.Font(None, 55)
-        #         screen.blit(font.render(str(y) + '.lvl', True, pygame.Color('black')),
-        #                     (x * self.cell_size + 5 + self.left,
-        #                      y * self.cell_size + self.cell_size // 3 + self.top, self.cell_size, self.cell_size))
-        #         pygame.draw.rect(screen, pygame.Color(255, 255, 255), (
-        #             x * self.cell_size + self.left, y * self.cell_size + self.top - 50, self.cell_size,
-        #             self.cell_size), 3)
-
+        # pygame.draw.rect(screen, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
+        # font = pygame.font.Font(None, 25)
+        # screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')),
+        #             (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
+        c = 0
+        for y in range(1, self.width + 1):
+            for x in range((self.height)):
+                c += 1
+                font = pygame.font.Font(None, 40)
+                screen.blit(font.render(str(c) + '.lvl', True, pygame.Color(123, 104, 238)),
+                           (x * self.cell_size * 1.45 + 68,
+                            (y - 1) * self.cell_size + self.top + 45, self.cell_size, self.cell_size))
+                pygame.draw.rect(screen, pygame.Color(0, 255, 0), (
+                    x * self.cell_size * 1.45 + 50, (y - 1) * self.cell_size + self.top, self.cell_size,
+                    self.cell_size), 3)
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
         self.left = left
         self.top = top
         self.cell_size = cell_size
+    def get_cell(self, mouse_pos):
+        '''дописать
+        '''
+        print(mouse_pos)
+        if mouse_pos[0] < 300:
+            cell_x = (mouse_pos[0] - self.left) // self.cell_size
+            cell_y = (mouse_pos[1] - self.top) // self.cell_size
+        if 300 < mouse_pos[0]< 385:
+            cell_x = 2
+            cell_y = (mouse_pos[1] - self.top) // self.cell_size
+        if cell_x < 0 or cell_x >= self.width or cell_y < 0 or cell_y >= self.height:
+            return None
+        return cell_x, cell_y
 
     def get_click(self, mouse_pos):
-        x = mouse_pos[0]
-        y = mouse_pos[1]
-        if self.left < x < (self.left + self.cell_size) and self.top < y < (self.top + self.cell_size - 100):
-            print(self.username)
-            return self.username
+        cell = self.get_cell(mouse_pos)
+        if cell:
+            print(f'now level = {sum(cell)}, username = {self.username}')
+            return sum(cell), self.username
+    # def get_click(self, mouse_pos):
+    #     x = mouse_pos[0]
+    #     y = mouse_pos[1]
+    #     if self.left < x < (self.left + self.cell_size) and self.top < y < (self.top + self.cell_size - 100):
+    #         print(self.username)
+    #         return self.username
 
         #     вызов игрового окна
 
@@ -53,17 +73,16 @@ def terminate():
     sys.exit()
 
 
-def start_screen():
+def start_screen(lvl, username):
     """
     Вызвать из начала игры один раз:
     :return: username
     """
-    intro_text = [" ", "",
+    screen.fill(pygame.Color('white'))
+    intro_text = ["", "",
                   "Введите Ваше имя:", "",
-                  "побеждайте противников", ''
-                                            "проходите уровни"
-                  ]
-    screen.fill(pygame.Color('black'))
+                  "собирайте двоичные числа,",
+                  f"ВЫБЕРИТЕ УРОВЕНЬ: до {lvl}"]
     fon = pygame.image.load('data/logo-2.png')
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 36)
@@ -77,7 +96,7 @@ def start_screen():
         text_coord += intro_rect.height
         screen.blit(string_rendered, intro_rect)
     base_font = pygame.font.Font(None, 32)
-    user_text = ''
+    user_text = username
 
     input_rect = pygame.Rect(80, 170, 140, 32)
     color_active = pygame.Color("#3CB371")
@@ -89,9 +108,10 @@ def start_screen():
     # font = pygame.font.Font(None, 25)
     # screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')), (495, 215, 90, 90))
 
-    levels = Levels(user_text)
+    levels = Levels(lvl // 3, lvl // (lvl // 3), username)
 
     while True:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
@@ -132,12 +152,15 @@ def start_screen():
         clock.tick(FPS)
 
 
-WIDTH, HEIGHT = size = 640, 400
+ll = 3
+WIDTH, HEIGHT = size = 640, 900
+print(HEIGHT)
 pygame.init()
 clock = pygame.time.Clock()
+
 FPS = 50
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('PyCharm Survivors')
 
 if __name__ == '__main__':
-    start_screen()
+    start_screen(ll, '')
