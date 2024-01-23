@@ -1,10 +1,14 @@
 # Код карты
-from our_tools import load_image
 from tiles import *
-from entities import Player, Entity
+from entities import Player
 
 
 def load_level(filename):
+    """
+    Функция загрузки уровня
+    :param filename: название файла уровня
+    :return: Матрица карты
+    """
     filename = "data/" + filename
     # читаем уровень, убирая символы перевода строки
     with open(filename, 'r') as mapFile:
@@ -18,6 +22,9 @@ def load_level(filename):
 
 
 class Map:
+    """
+    Класс карты
+    """
     def __init__(self, level_map):
         self.level = level_map
         self.size = (max(len(el) for el in level_map) * tile_width, len(level_map) * tile_height)

@@ -84,4 +84,3 @@ class Player(Entity):
             if collision_test(self.rect, error_group):
                 print('Умер')
                 raise 'KEK'
-
