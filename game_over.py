@@ -5,11 +5,20 @@ pygame.init()
 
 
 def terminate():
+    '''
+    Закрываем лавочку.
+    :return:
+    '''
     pygame.quit()
     sys.exit()
 
 
 def game_over():
+    '''
+    Экран проигрыша.
+    :return:
+    '''
+    # Параметр нового размера картинки
     respar = 96
     size = w, h = 800, 500
     screen = pygame.display.set_mode(size)
