@@ -1,6 +1,7 @@
 # Код карты
-from tiles import Tile, tile_width, tile_height
-from entities import Player
+from our_tools import load_image
+from tiles import Tile, tile_width, tile_height, Wall
+from entities import Player, Entity
 
 
 def load_level(filename):
@@ -27,9 +28,10 @@ class Map:
             for x in range(len(self.level[y])):
                 Tile('empty', x, y)
                 if self.level[y][x] == '#':
-                    Tile('wall', x, y)
+                    Wall(x, y)
                 elif self.level[y][x] == '@':
-                    new_player = Player(x, y)
+                    new_player = Player(load_image("ninja_walking.png"), 4, 4,
+                                        x * tile_width, y * tile_height, self.size)
                     self.level[y][x] = '.'
         # вернем игрока, а также размер поля в клетках
         return new_player, x, y

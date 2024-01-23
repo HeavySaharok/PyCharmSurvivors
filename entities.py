@@ -5,15 +5,13 @@ from tiles import tile_width, tile_height
 
 pygame.init()
 
-
-class Entity:
-    pass
+entity_group = pygame.sprite.Group()
 
 
-class AnimatedSprite(pygame.sprite.Sprite):
+class Entity(pygame.sprite.Sprite):
 
     def __init__(self, sheet, columns, rows, x, y):
-        super().__init__(all_sprites)
+        super().__init__(all_sprites, entity_group)
         self.times = 0
         self.spd = 2
         self.frames = []
@@ -37,42 +35,32 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.times = 0
         self.times += 1
 
+
+class Player(Entity):
+
+    def __init__(self, sheet, columns, rows, x, y, map_size):
+        super().__init__(sheet, columns, rows, x, y)
+        self.map_size = map_size
+        self.spd = 10
+
     def move(self, keys):
         for key in keys:
-            if key == pygame.K_UP:
+            if key == pygame.K_UP and self.rect.top >= 0:
                 self.rect.y -= self.spd
-            elif key == pygame.K_DOWN:
+
+            elif key == pygame.K_DOWN and self.rect.bottom <= self.map_size[1]:
                 self.rect.y += self.spd
-            elif key == pygame.K_RIGHT:
+
+            elif key == pygame.K_RIGHT and self.rect.right <= self.map_size[0]:
                 if self.lr == -1:
                     self.lr = 1
                     self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
                     self.image = self.frames[self.cur_frame]
                 self.rect.x += self.spd
 
-            elif key == pygame.K_LEFT:
+            elif key == pygame.K_LEFT and self.rect.left >= 0:
                 if self.lr == 1:
                     self.lr = -1
                     self.frames = list(map(lambda x: pygame.transform.flip(x, 1, 0), self.frames))
                     self.image = self.frames[self.cur_frame]
                 self.rect.x -= self.spd
-
-
-player_image = load_image('mario.png')
-player_group = pygame.sprite.Group()
-
-
-class Player(pygame.sprite.Sprite):
-
-    def __init__(self, pos_x, pos_y):
-        super().__init__(player_group)
-        self.image = player_image
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x + 15, tile_height * pos_y + 5)
-        self.pos = pos_x, pos_y
-
-    def move(self, x, y):
-        self.pos = x, y
-        self.rect.x = x * tile_width + 15
-        self.rect.y = y * tile_height + 5
-        print(self.pos)
