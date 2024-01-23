@@ -1,14 +1,7 @@
 import sys
 import pygame
 from our_tools import load_image
-from database import Database
-
-FPS = 50
 pygame.init()
-size = WIDTH, HEIGHT = 800, 500
-# screen = pygame.display.set_mode(size)    если это вне функции или класса, то влияет на всю игру
-# pygame.display.set_caption('Game over')   поэтому это нужно сувать в функцию
-clock = pygame.time.Clock()
 
 
 def terminate():
@@ -16,37 +9,42 @@ def terminate():
     sys.exit()
 
 
-def game_over(name, score):
+def game_over():
+    respar = 96
+    size = w, h = 800, 500
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Game over')
-    result_text = []
-    players = Database('players.sqlite')
-    players.insert('scores', ('name', 'score'), (name, score))
-    for elem in sorted(players.get_val('scores', '*', ''), key=lambda x: x[2], reverse=True):
-        result_text.append(' '.join(list(map(str, elem))))
-    fon = pygame.transform.scale(load_image('gmov.png'), (WIDTH, HEIGHT))
-    screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 150
-    for line in result_text:
-        string_rendered = font.render(line, 1, pygame.Color('Blue'))
+    res_text = ['Вы проиграли. Нажмите ПРОБЕЛ что бы начать уровень заново', 'или ESC если вы хотите закончить игру.']
+    fon = pygame.transform.scale(load_image('gmov.png'), (w, h))
+    screen.blit(fon, (0, -80))
+    looser = pygame.transform.scale(load_image('Ninja.png').subsurface(pygame.Rect((0, 6 * 16), (16, 16))),
+                                    (respar, respar))
+    screen.blit(looser, ((w - respar) // 2, 340))
+    font = pygame.font.SysFont('Georgia', 23)
+    y = 420
+    for line in res_text:
+        string_rendered = font.render(line, 1, pygame.Color(243, 255, 29))
         intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 250
-        text_coord += intro_rect.height
+        y += 20
+        intro_rect.top = y
+        intro_rect.x = (w - intro_rect.width) // 2
         screen.blit(string_rendered, intro_rect)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
-            elif event.type == pygame.KEYDOWN or \
-                    event.type == pygame.MOUSEBUTTONDOWN:
-                return
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    pass
+                    # позже функция начала уровня заново
+                    return
+                elif event.key == pygame.K_ESCAPE:
+                    pass
+                    # вызов экрана результатов
+                    return
         pygame.display.flip()
-        clock.tick(FPS)
 
 
 if __name__ == '__main__':
-    game_over('Vasya', 1421)
+    game_over()
