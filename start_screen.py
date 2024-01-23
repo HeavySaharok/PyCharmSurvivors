@@ -54,10 +54,10 @@ def terminate():
 
 
 def start_screen():
-    '''
+    """
     Вызвать из начала игры один раз:
-    return: username
-    '''
+    :return: username
+    """
     intro_text = [" ", "",
                   "Введите Ваше имя:", "",
                   "побеждайте противников", ''
