@@ -2,9 +2,9 @@ from map import load_level, Map
 from entities import entity_group
 from our_tools import all_sprites
 from start_screen import *
-import pygame
-from game_over import game_over
+from screens import *
 from tiles import tiles_group, obstacle_group
+from database import Database
 
 pygame.init()
 
@@ -50,6 +50,8 @@ while running:
     clock.tick(FPS)
 
 # Вызов экрана конца игры. Теперь никнейм берётся из стартскрина, а очки в переменной score.
-pygame.display.set_mode((800, 500))
-game_over(username, score)
+players = Database('players.sqlite')
+players.insert('scores', ('name', 'score'), (username, score))
+players.close()
+result_screen(username)
 pygame.quit()

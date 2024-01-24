@@ -82,7 +82,6 @@ class Player(Entity):
 
             if collision_test(self.rect, finish_group):
                 next_level('name')
-                print('finish')
 
             if collision_test(self.rect, error_group):
                 print('Умер')

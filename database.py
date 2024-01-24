@@ -48,6 +48,9 @@ class Database:
             return self.cur.execute(f'SELECT {column} from {tab_name}'
                                     f'WHERE {condition}').fetchall()
 
+    def close(self):
+        self.db.commit()
+
 
 # # Пример. Создаём базу с парочкой игроков.
 # Players = Database('players.sqlite')

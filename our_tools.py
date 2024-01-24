@@ -49,4 +49,4 @@ def next_level(name_level):
     :param name_level: название уровня
     :return:
     """
-    pass
+
