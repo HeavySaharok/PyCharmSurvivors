@@ -1,5 +1,5 @@
 from map import load_level, Map
-from entities import entity_group
+from entities import entity_group, hero_group
 from our_tools import all_sprites
 from start_screen import *
 from screens import *
@@ -16,18 +16,30 @@ running = True
 username = start_screen()
 score = 5000
 level_name = 'test.map'
+lev_done = 0
+hero, level_x, level_y, screen = None, None, None, None
+
 
 # Карта
-level_map = [list(el) for el in load_level(level_name)]
-mape = Map(level_map)
-hero, level_x, level_y = mape.generate_level()
+def show():
+    global hero, level_x, level_y, screen
+    level_map = [list(el) for el in load_level(level_name)]
+    mape = Map(level_map)
+    hero, level_x, level_y = mape.generate_level()
 
-# экран
-screen = pygame.display.set_mode(mape.size)
-pygame.display.set_caption(level_name)
+    # экран
+    screen = pygame.display.set_mode(mape.size)
+    pygame.display.set_caption(level_name)
 
+
+show()
 # основной цикл
 while running:
+    if lev_done:
+        a = level_cleared(score)
+        lev_done = 0
+        if not a:
+            running = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -43,9 +55,15 @@ while running:
     else:
         hero.standing = 1
     all_sprites.update()
+    if hero_group.update() == 1:
+        print('1')
+        a = game_over()
+        if not a:
+            running = 0
     tiles_group.draw(screen)
     obstacle_group.draw(screen)
     entity_group.draw(screen)
+    hero_group.draw(screen)
     pygame.display.flip()
     clock.tick(FPS)
 

@@ -140,11 +140,7 @@ def game_over():
                 terminate()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    pass
-                    # позже функция начала уровня заново
-                    return
+                    return 1
                 elif event.key == pygame.K_ESCAPE:
-                    pass
-                    # вызов экрана результатов
-                    return
+                    return 0
         pygame.display.flip()
