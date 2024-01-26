@@ -6,7 +6,6 @@ from tiles import obstacle_group, finish_group, error_group
 pygame.init()
 
 entity_group = pygame.sprite.Group()
-hero_group = pygame.sprite.Group()
 
 
 class Entity(pygame.sprite.Sprite):
@@ -45,9 +44,7 @@ class Player(Entity):
         self.map_size = map_size
         self.spd = 4
         self.standing = 0
-        hero_group.add(self)
-        entity_group.remove(self)
-        all_sprites.remove(self)
+        self.collis = 0
 
     def move(self, keys):
         self.standing = 0
@@ -85,10 +82,11 @@ class Player(Entity):
                         self.rect.right = elem.rect.left
 
             if collision_test(self.rect, finish_group):
-                next_level('name')
-
-            if collision_test(self.rect, error_group):
-                return 1
+                self.collis = 2
+            elif collision_test(self.rect, error_group):
+                self.collis = 1
+            else:
+                self.collis = 0
 
     def update(self):
         if self.standing:
@@ -99,3 +97,4 @@ class Player(Entity):
             self.image = self.frames[4 * self.dir + self.cur_frame]
             self.times = 0
         self.times += 1
+        return self.collis

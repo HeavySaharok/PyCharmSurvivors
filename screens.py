@@ -2,7 +2,7 @@ import sys
 import pygame
 from database import Database
 from our_tools import load_image
-pygame.init()
+cl = pygame.time.Clock()
 
 
 def terminate():
@@ -20,6 +20,7 @@ def result_screen(player_name: str):
     :param player_name: имя текущего игрока
     :return:
     """
+    pygame.init()
     unique = 0
     size = 800, 500
     screen = pygame.display.set_mode(size)
@@ -61,6 +62,7 @@ def result_screen(player_name: str):
             if event.type == pygame.QUIT:
                 terminate()
         pygame.display.flip()
+        cl.tick(60)
 
 
 def level_cleared(score: int):
@@ -69,6 +71,7 @@ def level_cleared(score: int):
     :param score: кол-во очков ирока
     :return:
     """
+    pygame.init()
     respar = 128
     size = w, h = 800, 500
     screen = pygame.display.set_mode(size)
@@ -106,6 +109,7 @@ def level_cleared(score: int):
                     pass
                     return 0
         pygame.display.flip()
+        cl.tick(60)
 
 
 def game_over():
@@ -113,6 +117,7 @@ def game_over():
     Экран проигрыша.
     :return:
     """
+    pygame.init()
     # Параметр нового размера картинки
     respar = 96
     size = w, h = 800, 500
@@ -144,3 +149,4 @@ def game_over():
                 elif event.key == pygame.K_ESCAPE:
                     return 0
         pygame.display.flip()
+        cl.tick(60)
