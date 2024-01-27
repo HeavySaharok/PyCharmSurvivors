@@ -126,12 +126,15 @@ class WarningEntity(Entity):
 
 class ErrorEntity(Entity):
     """Наш враг, суть которого в том что он всегда знает где мы и медленно следует за нами... очень медленно."""
-    def __init__(self, x, y, victim):
+    def __init__(self, x, y, victim, speed_limit=30, speed_control=1):
         super().__init__(load_image('error.png'), 1, 1, x, y)
         error_group.add(self)
         self.victim = victim
-        self.spd = 1
+        self.spd_y = 0
+        self.spd_x = 0
         self.acc = 1
+        self.spd_lim = speed_limit
+        self.spd_cont = speed_control
         self.hitbox = (self.rect.x, self.rect.y, 32, 32)
 
     def move(self):
@@ -141,9 +144,14 @@ class ErrorEntity(Entity):
         self.hitbox = (self.rect.x, self.rect.y, 32, 32)
         # делим число на его модуль, чтобы узнать направление и умножаем на скорость
         if dir_x:
-            self.spd += dir_x // abs(dir_x) * self.acc
+            self.spd_x += dir_x // abs(dir_x) * self.acc
         if dir_y:
-            self.rect.y += dir_y // abs(dir_y) * self.acc
-        self.rect.x += self.spd
-        self.rect.y += self.spd
+            self.spd_y += dir_y // abs(dir_y) * self.acc
+        if self.spd_x > self.spd_lim:
+            self.spd_x = self.spd_lim
+        if self.spd_y > self.spd_lim:
+            self.spd_y = self.spd_lim
+
+        self.rect.x += self.spd_x // self.spd_cont
+        self.rect.y += self.spd_y // self.spd_cont
 
