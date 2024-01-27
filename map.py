@@ -50,6 +50,9 @@ class Map:
                 if self.level[y][x] == 'W':
                     self.monsters.append(WarningEntity(x * tile_width, y * tile_height, new_player))
                     self.level[y][x] = '.'
+                elif self.level[y][x] == 'E':
+                    self.monsters.append(ErrorEntity(x * tile_width, y * tile_height, new_player))
+                    self.level[y][x] = '.'
         # вернем игрока, а также размер поля в клетках
         return new_player, self.monsters, x, y
 

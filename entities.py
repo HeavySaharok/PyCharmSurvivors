@@ -122,3 +122,28 @@ class WarningEntity(Entity):
             self.rect.x += dir_x // abs(dir_x) * self.spd
         if dir_y:
             self.rect.y += dir_y // abs(dir_y) * self.spd
+
+
+class ErrorEntity(Entity):
+    """Наш враг, суть которого в том что он всегда знает где мы и медленно следует за нами... очень медленно."""
+    def __init__(self, x, y, victim):
+        super().__init__(load_image('error.png'), 1, 1, x, y)
+        error_group.add(self)
+        self.victim = victim
+        self.spd = 1
+        self.acc = 1
+        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
+
+    def move(self):
+        x, y = self.victim.rect.center  # узнаём координаты жертвы
+        dir_x = x - self.rect.center[0]
+        dir_y = y - self.rect.center[1]
+        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
+        # делим число на его модуль, чтобы узнать направление и умножаем на скорость
+        if dir_x:
+            self.spd += dir_x // abs(dir_x) * self.acc
+        if dir_y:
+            self.rect.y += dir_y // abs(dir_y) * self.acc
+        self.rect.x += self.spd
+        self.rect.y += self.spd
+
