@@ -12,6 +12,7 @@ class Levels:
         self.left = 55
         self.top = 300
         self.cell_size = 85
+        self.rects = []
 
     def render(self, screen):
         # pygame.draw.rect(screen, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
@@ -26,9 +27,13 @@ class Levels:
                 screen.blit(font.render(str(c) + '.lvl', True, pygame.Color(123, 104, 238)),
                            (x * self.cell_size * 1.45 + 68,
                             (y - 1) * self.cell_size + self.top + 45, self.cell_size, self.cell_size))
-                pygame.draw.rect(screen, pygame.Color(0, 255, 0), (
+                rect = pygame.draw.rect(screen, pygame.Color(0, 255, 0), (
                     x * self.cell_size * 1.45 + 50, (y - 1) * self.cell_size + self.top, self.cell_size,
                     self.cell_size), 3)
+                self.rects.append([rect.topleft, rect.topright, rect.bottomleft, rect.bottomright])
+
+
+
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -37,23 +42,23 @@ class Levels:
     def get_cell(self, mouse_pos):
         '''дописать
         '''
+        num_lvl = 0
         print(mouse_pos)
-        if mouse_pos[0] < 300:
-            cell_x = (mouse_pos[0] - self.left) // self.cell_size
-            cell_y = (mouse_pos[1] - self.top) // self.cell_size
-        if 300 < mouse_pos[0]< 385:
-            cell_x = 2
-            cell_y = (mouse_pos[1] - self.top) // self.cell_size
-        if cell_x < 0 or cell_x >= self.width or cell_y < 0 or cell_y >= self.height:
-            return None
-        return cell_x, cell_y
+        for i in range(len(self.rects)):
+            if self.rects[i][0] <= mouse_pos[0] <= self.rects[i][1] and self.rects[i][0] <= mouse_pos[1] <= self.rects[i][2]:
+                num_lvl = i
+
+            else:
+                return None
+
+        return num_lvl
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
         if cell:
-            print(f'now level = {sum(cell)}, username = {self.username}')
-            return sum(cell), self.username
-    # def get_click(self, mouse_pos):
+            print(f'now level = {cell}, username = {self.username}')
+            return (cell), self.username
+    # # def get_click(self, mouse_pos):
     #     x = mouse_pos[0]
     #     y = mouse_pos[1]
     #     if self.left < x < (self.left + self.cell_size) and self.top < y < (self.top + self.cell_size - 100):
@@ -152,7 +157,7 @@ def start_screen(lvl, username):
         clock.tick(FPS)
 
 
-ll = 3
+ll = 9
 WIDTH, HEIGHT = size = 640, 900
 print(HEIGHT)
 pygame.init()
