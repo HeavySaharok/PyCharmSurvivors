@@ -125,7 +125,8 @@ class WarningEntity(Entity):
 
 
 class ErrorEntity(Entity):
-    """Наш враг, суть которого в том что он всегда знает где мы и медленно следует за нами... очень медленно."""
+    """Наш враг, суть которого в том что он всегда знает где мы и очень быстро летит за нами... но из-за такой скорости
+    он очень неуклюжий"""
     def __init__(self, x, y, victim, speed_limit=30, speed_control=1):
         super().__init__(load_image('error.png'), 1, 1, x, y)
         error_group.add(self)
@@ -155,3 +156,39 @@ class ErrorEntity(Entity):
         self.rect.x += self.spd_x // self.spd_cont
         self.rect.y += self.spd_y // self.spd_cont
 
+
+class MovingEntity(Entity):
+    """Этот враг не обладает интелектом, он просто сделуеть из точки A в точку Б"""
+    def __init__(self, x, y, point_b: (int, int)):
+        super().__init__(load_image('moving_error.png'), 1, 1, x, y)
+        error_group.add(self)
+        point_a = (x, y)
+        self.x0, self.x1 = point_a[0], point_b[0]
+        self.y0, self.y1 = point_a[1], point_b[1]
+        self.spd = 1
+        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
+        self.dir_x = True
+        self.dir_y = True
+
+    def move(self):
+        x = self.rect.x
+        y = self.rect.y
+        if self.y0 - self.y1:
+            if self.dir_y:
+                if y == self.y1:
+                    self.dir_y = False
+                self.rect.y += self.spd
+            else:
+                if y == self.y0:
+                    self.dir_y = True
+                self.rect.y -= self.spd
+
+        if self.x0 - self.x1:
+            if self.dir_x:
+                if x == self.x1:
+                    self.dir_x = False
+                self.rect.x += self.spd
+            else:
+                if x == self.x0:
+                    self.dir_x = True
+                self.rect.x -= self.spd

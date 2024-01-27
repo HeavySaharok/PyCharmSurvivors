@@ -53,6 +53,14 @@ class Map:
                 elif self.level[y][x] == 'E':
                     self.monsters.append(ErrorEntity(x * tile_width, y * tile_height, new_player))
                     self.level[y][x] = '.'
+                elif self.level[y][x] == 'D':
+                    self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
+                                                      (x * tile_width, (y + 4) * tile_height)))
+                    self.level[y][x] = '.'
+                elif self.level[y][x] == 'R':
+                    self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
+                                                      ((x + 4) * tile_width, y * tile_height)))
+                    self.level[y][x] = '.'
         # вернем игрока, а также размер поля в клетках
         return new_player, self.monsters, x, y
 
