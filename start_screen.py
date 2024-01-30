@@ -21,7 +21,7 @@ class Levels:
         #             (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
         c = 0
         for y in range(1, self.width + 1):
-            for x in range((self.height)):
+            for x in range(self.height):
                 c += 1
                 font = pygame.font.Font(None, 40)
                 screen.blit(font.render(str(c) + '.lvl', True, pygame.Color(123, 104, 238)),
@@ -30,7 +30,8 @@ class Levels:
                 rect = pygame.draw.rect(screen, pygame.Color(0, 255, 0), (
                     x * self.cell_size * 1.45 + 50, (y - 1) * self.cell_size + self.top, self.cell_size,
                     self.cell_size), 3)
-                self.rects.append([rect.topleft, rect.topright, rect.bottomleft, rect.bottomright])
+                if len(self.rects) < self.width * self.height:
+                    self.rects.append([rect.topleft, rect.topright, rect.bottomleft])
 
 
 
@@ -43,13 +44,13 @@ class Levels:
         '''дописать
         '''
         num_lvl = 0
-        print(mouse_pos)
+        # print(len(self.rects))
+        # print(mouse_pos)
         for i in range(len(self.rects)):
-            if self.rects[i][0] <= mouse_pos[0] <= self.rects[i][1] and self.rects[i][0] <= mouse_pos[1] <= self.rects[i][2]:
-                num_lvl = i
 
-            else:
-                return None
+            # print(self.rects[i][0][0], self.rects[i][1][0], self.rects[i][0][1], self.rects[i][2][1])
+            if (self.rects[i][0][0] <= mouse_pos[0] <= self.rects[i][1][0]) and (self.rects[i][0][1] <= mouse_pos[1] <= self.rects[i][2][1]):
+                num_lvl = i + 1
 
         return num_lvl
 
@@ -157,7 +158,7 @@ def start_screen(lvl, username):
         clock.tick(FPS)
 
 
-ll = 9
+ll = 15
 WIDTH, HEIGHT = size = 640, 900
 print(HEIGHT)
 pygame.init()
