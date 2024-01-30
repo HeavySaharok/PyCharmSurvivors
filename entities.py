@@ -83,8 +83,10 @@ class Player(Entity):
 
             if collision_test(self.rect, finish_group):
                 self.collis = 2
+                pygame.quit()
             elif collision_test(self.rect, error_group):
                 self.collis = 1
+                pygame.quit()
             else:
                 self.collis = 0
 

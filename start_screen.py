@@ -11,11 +11,11 @@ class Levels:
         self.top = 50
         self.cell_size = 150
 
-    def render(self, screen):
-        pygame.draw.rect(screen, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
+    def render(self, scr):
+        pygame.draw.rect(scr, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
         font = pygame.font.Font(None, 25)
-        screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')),
-                    (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
+        scr.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')),
+                 (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
 
         # for y in range(self.height):
         #     for x in range(self.width):
@@ -100,6 +100,7 @@ def start_screen():
                 if click is None:
                     pass
                 else:
+                    pygame.quit()
                     return click
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -129,12 +130,10 @@ def start_screen():
 
         levels.render(screen)
         pygame.display.flip()
-        clock.tick(FPS)
 
 
 WIDTH, HEIGHT = size = 640, 400
 pygame.init()
-clock = pygame.time.Clock()
 FPS = 50
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('PyCharm Survivors')

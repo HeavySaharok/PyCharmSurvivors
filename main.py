@@ -1,3 +1,5 @@
+import pygame.time
+
 from map import load_level, Map
 from entities import entity_group
 from our_tools import all_sprites
@@ -7,7 +9,6 @@ from tiles import tiles_group, obstacle_group
 from database import Database
 
 FPS = 60
-clock = pygame.time.Clock()
 
 direct = []
 running = True
@@ -27,14 +28,14 @@ def show(level_name):
     sc = pygame.display.set_mode(mape.size)
     pygame.display.set_caption(level_name)
     h, lx, ly = mape.generate_level()
-    return h, lx, ly, sc
+    return h, lx, ly, sc, pygame.time.Clock()
 
 
-hero, level_x, level_y, screen = show(levels[lv_id])
+hero, level_x, level_y, screen, clock = show(levels[lv_id])
 # основной цикл
 while running:
-    print('1')
     if lev_done:
+        pygame.quit()
         a = level_cleared(score)
         lev_done = 0
         if not a:
@@ -53,8 +54,7 @@ while running:
         if not a:
             break
         else:
-            pygame.quit()
-            hero, level_x, level_y, screen = show(levels[lv_id])
+            hero, level_x, level_y, screen, clock = show(levels[lv_id])
             direct = []
     elif hero.collis == 2:
         pygame.quit()
@@ -70,11 +70,9 @@ while running:
             else:
                 pygame.quit()
                 hero, level_x, level_y, screen = show(levels[lv_id])
-    print('2')
     tiles_group.draw(screen)
     obstacle_group.draw(screen)
     entity_group.draw(screen)
-    print('2.5')
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -84,8 +82,6 @@ while running:
             direct.pop(direct.index(event.key))
     clock.tick(60)
     pygame.display.flip()
-    print(2.6)
-    print('3')
 
 # Вызов экрана конца игры. Теперь никнейм берётся из стартскрина, а очки в переменной score.
 players = Database('players.sqlite')
