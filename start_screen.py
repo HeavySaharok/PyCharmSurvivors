@@ -14,20 +14,16 @@ class Levels:
         self.cell_size = 85
         self.rects = []
 
-    def render(self, screen):
-        # pygame.draw.rect(screen, pygame.Color(0, 0, 0), (self.left, self.top, self.cell_size, self.cell_size - 100), 3)
-        # font = pygame.font.Font(None, 25)
-        # screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')),
-        #             (self.left + 15, self.top + 15, self.cell_size, self.cell_size))
+    def render(self, scr):
         c = 0
         for y in range(1, self.width + 1):
             for x in range(self.height):
                 c += 1
                 font = pygame.font.Font(None, 40)
-                screen.blit(font.render(str(c) + '.lvl', True, pygame.Color(123, 104, 238)),
+                scr.blit(font.render(str(c) + '.lvl', True, pygame.Color(123, 104, 238)),
                            (x * self.cell_size * 1.45 + 68,
                             (y - 1) * self.cell_size + self.top + 45, self.cell_size, self.cell_size))
-                rect = pygame.draw.rect(screen, pygame.Color(0, 255, 0), (
+                rect = pygame.draw.rect(scr, pygame.Color(0, 255, 0), (
                     x * self.cell_size * 1.45 + 50, (y - 1) * self.cell_size + self.top, self.cell_size,
                     self.cell_size), 3)
                 if len(self.rects) < self.width * self.height:
@@ -44,11 +40,7 @@ class Levels:
         '''дописать
         '''
         num_lvl = 0
-        # print(len(self.rects))
-        # print(mouse_pos)
         for i in range(len(self.rects)):
-
-            # print(self.rects[i][0][0], self.rects[i][1][0], self.rects[i][0][1], self.rects[i][2][1])
             if (self.rects[i][0][0] <= mouse_pos[0] <= self.rects[i][1][0]) and (self.rects[i][0][1] <= mouse_pos[1] <= self.rects[i][2][1]):
                 num_lvl = i + 1
 
@@ -59,19 +51,6 @@ class Levels:
         if cell:
             print(f'now level = {cell}, username = {self.username}')
             return (cell), self.username
-    # # def get_click(self, mouse_pos):
-    #     x = mouse_pos[0]
-    #     y = mouse_pos[1]
-    #     if self.left < x < (self.left + self.cell_size) and self.top < y < (self.top + self.cell_size - 100):
-    #         print(self.username)
-    #         return self.username
-
-        #     вызов игрового окна
-
-        # cell = self.get_cell(mouse_pos)
-        # if cell:
-        #     print(f'now level = {sum(cell)}, username = {self.username}')
-        #     return sum(cell), self.username
 
 
 def terminate():
@@ -87,7 +66,7 @@ def start_screen(lvl, username):
     screen.fill(pygame.Color('white'))
     intro_text = ["", "",
                   "Введите Ваше имя:", "",
-                  "собирайте двоичные числа,",
+                  "ПРАВИЛА: избегай багов и выберись живым",
                   f"ВЫБЕРИТЕ УРОВЕНЬ: до {lvl}"]
     fon = pygame.image.load('data/logo-2.png')
     screen.blit(fon, (0, 0))
@@ -110,9 +89,6 @@ def start_screen(lvl, username):
     color_passive = pygame.Color("#006400")
     active = False
 
-    # pygame.draw.rect(screen, pygame.Color(0, 0, 0), (480, 200, 150, 50), 3)
-    # font = pygame.font.Font(None, 25)
-    # screen.blit(font.render('НАЧАТЬ ИГРУ', True, pygame.Color('black')), (495, 215, 90, 90))
 
     levels = Levels(lvl // 3, lvl // (lvl // 3), username)
 
