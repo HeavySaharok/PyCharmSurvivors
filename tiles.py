@@ -20,6 +20,7 @@ class Tile(pygame.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y, *arg):
         super().__init__(tiles_group, all_sprites, *arg)
         self.image = tile_images[tile_type]
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
 

@@ -22,6 +22,7 @@ class Entity(pygame.sprite.Sprite):
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns, sheet.get_height() // rows)
@@ -73,7 +74,8 @@ class Player(Entity):
                     self.dir = 2
                 self.rect.x -= self.spd
 
-            if hits := collision_test(self.rect, obstacle_group):
+            # Проверка на столкновение
+            if hits := collision_test(self, obstacle_group):  # Если есть столкновения, запись в переменную hits
                 for elem in hits:
                     if key == pygame.K_UP:
                         self.rect.top = elem.rect.bottom
@@ -84,11 +86,11 @@ class Player(Entity):
                     if key == pygame.K_RIGHT:
                         self.rect.right = elem.rect.left
 
-            if collision_test(self.rect, finish_group):
+            if collision_test(self, finish_group):
                 next_level('name')
                 print('finish')
 
-            if collision_test(self.rect, error_group):
+            if collision_test(self, error_group, mask=True):
                 print('Умер')
                 raise 'KEK'
 
