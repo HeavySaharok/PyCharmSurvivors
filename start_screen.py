@@ -29,16 +29,7 @@ class Levels:
                 if len(self.rects) < self.width * self.height:
                     self.rects.append([rect.topleft, rect.topright, rect.bottomleft])
 
-
-
-    # настройка внешнего вида
-    def set_view(self, left, top, cell_size):
-        self.left = left
-        self.top = top
-        self.cell_size = cell_size
     def get_cell(self, mouse_pos):
-        '''дописать
-        '''
         num_lvl = 0
         for i in range(len(self.rects)):
             if (self.rects[i][0][0] <= mouse_pos[0] <= self.rects[i][1][0]) and (self.rects[i][0][1] <= mouse_pos[1] <= self.rects[i][2][1]):

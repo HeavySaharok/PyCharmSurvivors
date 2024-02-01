@@ -10,18 +10,24 @@ from database import Database
 
 FPS = 60
 
+
 direct = []
 running = True
-username = start_screen()
+# присваивание уровня и имени пользователя
+lvl, username = start_screen(3, '')
 score = 5000
 levels = ['test.map']
 lv_id = 0
 lev_done = 0
+print(levels)
 
 
 # Карта
 def show(level_name):
     pygame.init()
+    # музыка
+    pygame.mixer.music.load('data/Cello.ogg')
+    pygame.mixer.music.play(-1)
     level_map = [list(el) for el in load_level(level_name)]
     mape = Map(level_map)
     # экран
