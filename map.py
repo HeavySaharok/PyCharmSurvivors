@@ -42,7 +42,7 @@ class Map:
                 elif self.level[y][x] == '^':
                     Finish(x, y)
                 elif self.level[y][x] == '@':
-                    new_player = Player(load_image("ninja_walking.png"), 4, 4,
+                    new_player = Player(4, 4,
                                         x * tile_width, y * tile_height, self.size)
                     self.level[y][x] = '.'
         for y in range(len(self.level)):

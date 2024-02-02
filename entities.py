@@ -28,7 +28,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns, sheet.get_height() // rows)
         for j in range(rows):
             for i in range(columns):
-                frame_location = (self.rect.w * j, self.rect.h * i)
+                frame_location = (self.rect.h * i, self.rect.w * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
     def update(self):
@@ -44,8 +44,8 @@ class Player(Entity):
     Игрок, мы можем им управлять!
     (НЕ рекомендую делать больше одного игрока)
     """
-    def __init__(self, sheet, columns, rows, x, y, map_size):
-        super().__init__(sheet, columns, rows, x, y)
+    def __init__(self, columns, rows, x, y, map_size):
+        super().__init__(load_image("ninja_walking_small.png"), columns, rows, x, y)
         self.map_size = map_size
         self.spd = 4
         self.standing = 0
@@ -97,10 +97,10 @@ class Player(Entity):
     def update(self):
         if self.standing:
             self.cur_frame = 0
-            self.image = self.frames[4 * self.dir + self.cur_frame]
+            self.image = self.frames[self.dir]
         elif self.times % 4 == 0:
             self.cur_frame = (self.cur_frame + 1) % 4
-            self.image = self.frames[4 * self.dir + self.cur_frame]
+            self.image = self.frames[self.dir + self.cur_frame * 4]
             self.times = 0
         self.times += 1
 
@@ -108,17 +108,15 @@ class Player(Entity):
 class WarningEntity(Entity):
     """Наш враг, суть которого в том что он всегда знает где мы и медленно следует за нами... очень медленно."""
     def __init__(self, x, y, victim):
-        super().__init__(load_image('warning.png'), 1, 1, x, y)
+        super().__init__(load_image('warning.png'), 4, 1, x, y)
         error_group.add(self)
         self.victim = victim
         self.spd = 1
-        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
 
     def move(self):
         x, y = self.victim.rect.center  # узнаём координаты жертвы
         dir_x = x - self.rect.center[0]
         dir_y = y - self.rect.center[1]
-        self.hitbox = (self.rect.x, self.rect.y, 32, 32)
         # делим число на его модуль, чтобы узнать направление и умножаем на скорость
         if dir_x:
             self.rect.x += dir_x // abs(dir_x) * self.spd
