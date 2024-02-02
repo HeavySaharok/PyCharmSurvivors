@@ -87,10 +87,10 @@ class Player(Entity):
                     if key == pygame.K_RIGHT:
                         self.rect.right = elem.rect.left
 
-            if collision_test(self.rect, finish_group):
+            if collision_test(self, finish_group):
                 self.collis = 2
                 pygame.quit()
-            elif collision_test(self.rect, error_group, mask=True):
+            elif collision_test(self, error_group, mask=True):
                 self.collis = 1
                 pygame.quit()
             else:
