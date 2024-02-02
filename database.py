@@ -33,7 +33,7 @@ class Database:
         vals = ', '.join(keys)
         self.cur.execute(f'CREATE TABLE IF NOT EXISTS {tab_name} ({vals})')
 
-    def get_val(self, tab_name: str, column: str, condition: str):
+    def get_val(self, tab_name: str, column: str, condition=''):
         """
         Получаем значения из таблицы по заданным условиям. Сомневаюсь, что будем ей пользоваться т.к. условия, как
         правило, слишком сложные что бы запихнуть их в 1 строку.
@@ -46,7 +46,33 @@ class Database:
             return self.cur.execute(f'SELECT {column} from {tab_name}').fetchall()
         else:
             return self.cur.execute(f'SELECT {column} from {tab_name}'
-                                    f'WHERE {condition}').fetchall()
+                                    f' WHERE {condition}').fetchone()
+
+    def remove(self, tab_name: str, condition: str):
+        """
+        Удаляем поле таблицы, удовлетворяющее требованиям. Оставьте condition пустым, если хотите очистить таблицу.
+        :param tab_name: название таблицы.
+        :param condition: условие, при котором убираем значение.
+        :return: None
+        """
+        if condition:
+            self.cur.execute(f'DELETE from {tab_name} WHERE {condition}')
+
+    def update_score(self, tabname: str, name: str, score: int):
+        """
+        Обновляем очки в таблице.
+        :param tabname: название таблицы.
+        :param name: имя игрока для обновления
+        :param score: новый результат
+        :return:
+        """
+        if name in list(map(lambda x: list(x)[0], self.get_val(tabname, 'name'))):
+            if score > self.get_val(tabname, 'score', f'name = "{name}"')[0]:
+                self.cur.execute(f'UPDATE {tabname}'
+                                 f' SET score = {score}'
+                                 f' WHERE name = "{name}"')
+        else:
+            self.insert(tabname, ('name', 'score'), (name, score))
 
     def close(self):
         self.db.commit()

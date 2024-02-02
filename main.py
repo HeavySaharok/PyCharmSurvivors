@@ -14,16 +14,18 @@ FPS = 60
 direct = []
 running = True
 # присваивание уровня и имени пользователя
-lvl, username = start_screen(3, '')
-score = 5000
-levels = ['test.map']
-lv_id = 0
+lv_id, username = start_screen(3, '')
+score = 0
+bounty = 5000
+levels = ['test.map', '2.map']
 lev_done = 0
 print(levels)
 
 
 # Карта
 def show(level_name):
+    global bounty
+    bounty = 5000
     pygame.init()
     # музыка
     pygame.mixer.music.load('data/Cello.ogg')
@@ -54,8 +56,10 @@ while running:
     all_sprites.update()
     if hero.collis == 1:
         pygame.quit()
+        direct = []
         all_sprites.empty()
         entity_group.empty()
+        score = 0
         a = game_over()
         if not a:
             break
@@ -64,6 +68,8 @@ while running:
             direct = []
     elif hero.collis == 2:
         pygame.quit()
+        direct = []
+        score += int(bounty)
         all_sprites.empty()
         entity_group.empty()
         a = level_cleared(score)
@@ -75,7 +81,7 @@ while running:
                 break
             else:
                 pygame.quit()
-                hero, level_x, level_y, screen = show(levels[lv_id])
+                hero, level_x, level_y, screen, clock = show(levels[lv_id])
     tiles_group.draw(screen)
     obstacle_group.draw(screen)
     entity_group.draw(screen)
@@ -86,12 +92,14 @@ while running:
             direct.append(event.key)
         if event.type == pygame.KEYUP and event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
             direct.pop(direct.index(event.key))
-    clock.tick(60)
+    clock.tick(FPS)
+    bounty -= 1
     pygame.display.flip()
 
 # Вызов экрана конца игры. Теперь никнейм берётся из стартскрина, а очки в переменной score.
-players = Database('players.sqlite')
-players.insert('scores', ('name', 'score'), (username, score))
-players.close()
-result_screen(username)
-pygame.quit()
+if username != '':
+    players = Database('players.sqlite')
+    players.update_score('scores', username, score)
+    players.close()
+    result_screen(username)
+    pygame.quit()

@@ -41,7 +41,7 @@ class Levels:
         cell = self.get_cell(mouse_pos)
         if cell:
             print(f'now level = {cell}, username = {self.username}')
-            return (cell), self.username
+            return cell - 1, self.username
 
 
 def terminate():
