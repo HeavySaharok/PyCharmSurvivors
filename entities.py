@@ -108,7 +108,7 @@ class Player(Entity):
 class WarningEntity(Entity):
     """Наш враг, суть которого в том что он всегда знает где мы и медленно следует за нами... очень медленно."""
     def __init__(self, x, y, victim):
-        super().__init__(load_image('warning.png'), 4, 1, x, y)
+        super().__init__(load_image('warning.png'), 4, 5, x, y)
         error_group.add(self)
         self.victim = victim
         self.spd = 1
@@ -127,8 +127,8 @@ class WarningEntity(Entity):
 class ErrorEntity(Entity):
     """Наш враг, суть которого в том что он всегда знает где мы и очень быстро летит за нами... но из-за такой скорости
     он очень неуклюжий"""
-    def __init__(self, x, y, victim, speed_limit=30, speed_control=1):
-        super().__init__(load_image('error.png'), 1, 1, x, y)
+    def __init__(self, x, y, victim, speed_limit=30, speed_control=3):
+        super().__init__(load_image('error.png'), 11, 1, x, y)
         error_group.add(self)
         self.victim = victim
         self.spd_y = 0
