@@ -41,12 +41,3 @@ def collision_test(rect, tiles):
         if rect.colliderect(tile):
             hit_list.append(tile)
     return hit_list
-
-
-def next_level(name_level):
-    """
-    Должен загружать следующий уровень
-    :param name_level: название уровня
-    :return:
-    """
-

@@ -1,6 +1,6 @@
 #  Классы различных сущностей находятся тут
 import pygame
-from our_tools import all_sprites, collision_test, next_level
+from our_tools import all_sprites, collision_test
 from tiles import obstacle_group, finish_group, error_group
 
 pygame.init()

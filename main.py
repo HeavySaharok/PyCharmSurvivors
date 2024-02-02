@@ -19,7 +19,6 @@ score = 0
 bounty = 5000
 levels = ['test.map', '2.map']
 lev_done = 0
-print(levels)
 
 
 # Карта
@@ -97,6 +96,7 @@ while running:
     pygame.display.flip()
 
 # Вызов экрана конца игры. Теперь никнейм берётся из стартскрина, а очки в переменной score.
+pygame.quit()
 if username != '':
     players = Database('players.sqlite')
     players.update_score('scores', username, score)
