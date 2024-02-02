@@ -5,7 +5,7 @@ from entities import entity_group
 from our_tools import all_sprites
 from start_screen import *
 from screens import *
-from tiles import tiles_group, obstacle_group
+from tiles import tiles_group, obstacle_group, finish_group, error_group
 from database import Database
 
 FPS = 60
@@ -17,8 +17,21 @@ running = True
 lv_id, username = start_screen(3, '')
 score = 0
 bounty = 5000
-levels = ['test.map', '2.map']
+levels = ['test.map', '2.map', '3.map']
 lev_done = 0
+
+
+def clear_level():
+    """
+    Функция, чтобы очищать группы спрайтов и т.п.
+    :return:
+    """
+    obstacle_group.empty()
+    all_sprites.empty()
+    entity_group.empty()
+    tiles_group.empty()
+    error_group.empty()
+    finish_group.empty()
 
 
 # Карта
@@ -56,10 +69,9 @@ while running:
         monster.move()
     all_sprites.update()
     if hero.collis == 1:
+        clear_level()
         pygame.quit()
         direct = []
-        all_sprites.empty()
-        entity_group.empty()
         score = 0
         a = game_over()
         if not a:
@@ -68,11 +80,10 @@ while running:
             hero, monsters, level_x, level_y, screen, clock = show(levels[lv_id])
             direct = []
     elif hero.collis == 2:
+        clear_level()
         pygame.quit()
         direct = []
         score += int(bounty)
-        all_sprites.empty()
-        entity_group.empty()
         a = level_cleared(score)
         if not a:
             break

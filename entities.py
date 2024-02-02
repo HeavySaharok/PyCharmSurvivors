@@ -25,6 +25,13 @@ class Entity(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
     def cut_sheet(self, sheet, columns, rows):
+        """
+        Резка спрайтов
+        :param sheet:
+        :param columns:
+        :param rows:
+        :return:
+        """
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns, sheet.get_height() // rows)
         for j in range(rows):
             for i in range(columns):
@@ -44,17 +51,22 @@ class Player(Entity):
     Игрок, мы можем им управлять!
     (НЕ рекомендую делать больше одного игрока)
     """
-    def __init__(self, columns, rows, x, y, map_size):
-        super().__init__(load_image("ninja_walking_small.png"), columns, rows, x, y)
+    def __init__(self, x, y, map_size):
+        super().__init__(load_image("ninja_walking_small.png"), 4, 4, x, y)
         self.map_size = map_size
         self.spd = 4
         self.standing = 0
         self.collis = 0
 
     def move(self, keys):
+        """
+        Передвежение игрока
+        :param keys:
+        :return:
+        """
         self.standing = 0
         for key in keys:
-
+            # Настройка кнопок
             if key == pygame.K_UP and self.rect.top >= 0:
                 if self.dir != 1:
                     self.dir = 1

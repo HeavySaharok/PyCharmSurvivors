@@ -1,3 +1,4 @@
+import os
 import sys
 import pygame
 
@@ -129,6 +130,7 @@ WIDTH, HEIGHT = size = 640, 900
 print(HEIGHT)
 pygame.init()
 FPS = 50
+# os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('PyCharm Survivors')
 

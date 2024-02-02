@@ -21,9 +21,11 @@ def result_screen(player_name: str):
     """
     pygame.init()
     unique = 0
-    size = 230, 360
+    size = 630, 360
     screen = pygame.display.set_mode(size)
+    fon = load_image('result_screen.png')
     screen.fill('Black')
+    screen.blit(fon, (0, 0))
     pygame.display.set_caption('Results')
     players = Database('players.sqlite')
     result_text = [('#   ', 'Имя         ', 'Счёт')]
@@ -74,7 +76,6 @@ def result_screen(player_name: str):
             if event.type == pygame.QUIT:
                 terminate()
         pygame.display.flip()
-
 
 
 def level_cleared(score: int):
@@ -163,3 +164,7 @@ def game_over():
                     pygame.quit()
                     return 0
         pygame.display.flip()
+
+
+if __name__ == '__main__':
+    result_screen('123')

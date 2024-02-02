@@ -31,20 +31,26 @@ class Map:
         self.monsters = []
 
     def generate_level(self):
+        """
+        Создание уровня
+        :return: игрок, монстры, х, у
+        """
         new_player, x, y = None, None, None
+        # Расстановка клеток и игрока
         for y in range(len(self.level)):
             for x in range(len(self.level[y])):
                 Tile('empty', x, y)
-                if self.level[y][x] == '#':
+                if self.level[y][x] == '#':  # Стенка
                     Wall(x, y)
-                elif self.level[y][x] == '!':
+                elif self.level[y][x] == '!':  # Пол-ошибка
                     Error(x, y)
-                elif self.level[y][x] == '^':
+                elif self.level[y][x] == '^':  # Финиш
                     Finish(x, y)
-                elif self.level[y][x] == '@':
-                    new_player = Player(4, 4,
-                                        x * tile_width, y * tile_height, self.size)
+                elif self.level[y][x] == '@':  # Игрок
+                    new_player = Player(x * tile_width, y * tile_height, self.size)
                     self.level[y][x] = '.'
+
+        # Создание монстров
         for y in range(len(self.level)):
             for x in range(len(self.level[y])):
                 if self.level[y][x] == 'W':
@@ -61,7 +67,7 @@ class Map:
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
                                                       ((x + 4) * tile_width, y * tile_height)))
                     self.level[y][x] = '.'
-        # вернем игрока, а также размер поля в клетках
+        # возвращение игрока, монстров
         return new_player, self.monsters, x, y
 
 
