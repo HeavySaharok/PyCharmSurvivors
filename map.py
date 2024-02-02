@@ -1,6 +1,6 @@
 # Код карты
 from tiles import *
-from entities import Player
+from entities import *
 
 
 def load_level(filename):
@@ -28,6 +28,7 @@ class Map:
     def __init__(self, level_map):
         self.level = level_map
         self.size = (max(len(el) for el in level_map) * tile_width, len(level_map) * tile_height)
+        self.monsters = []
 
     def generate_level(self):
         new_player, x, y = None, None, None
@@ -41,10 +42,26 @@ class Map:
                 elif self.level[y][x] == '^':
                     Finish(x, y)
                 elif self.level[y][x] == '@':
-                    new_player = Player(load_image("ninja_walking.png"), 4, 4,
+                    new_player = Player(4, 4,
                                         x * tile_width, y * tile_height, self.size)
                     self.level[y][x] = '.'
+        for y in range(len(self.level)):
+            for x in range(len(self.level[y])):
+                if self.level[y][x] == 'W':
+                    self.monsters.append(WarningEntity(x * tile_width, y * tile_height, new_player))
+                    self.level[y][x] = '.'
+                elif self.level[y][x] == 'E':
+                    self.monsters.append(ErrorEntity(x * tile_width, y * tile_height, new_player))
+                    self.level[y][x] = '.'
+                elif self.level[y][x] == 'D':
+                    self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
+                                                      (x * tile_width, (y + 4) * tile_height)))
+                    self.level[y][x] = '.'
+                elif self.level[y][x] == 'R':
+                    self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
+                                                      ((x + 4) * tile_width, y * tile_height)))
+                    self.level[y][x] = '.'
         # вернем игрока, а также размер поля в клетках
-        return new_player, x, y
+        return new_player, self.monsters, x, y
 
 

@@ -34,11 +34,11 @@ def show(level_name):
     # экран
     sc = pygame.display.set_mode(mape.size)
     pygame.display.set_caption(level_name)
-    h, lx, ly = mape.generate_level()
-    return h, lx, ly, sc, pygame.time.Clock()
+    h, monsters, lx, ly = mape.generate_level()
+    return h, monsters, lx, ly, sc, pygame.time.Clock()
 
 
-hero, level_x, level_y, screen, clock = show(levels[lv_id])
+hero, monsters, level_x, level_y, screen, clock = show(levels[lv_id])
 # основной цикл
 while running:
     if lev_done:
@@ -52,6 +52,8 @@ while running:
         hero.move(direct)
     else:
         hero.standing = 1
+    for monster in monsters:
+        monster.move()
     all_sprites.update()
     if hero.collis == 1:
         pygame.quit()
@@ -63,7 +65,7 @@ while running:
         if not a:
             break
         else:
-            hero, level_x, level_y, screen, clock = show(levels[lv_id])
+            hero, monsters, level_x, level_y, screen, clock = show(levels[lv_id])
             direct = []
     elif hero.collis == 2:
         pygame.quit()
@@ -80,7 +82,7 @@ while running:
                 break
             else:
                 pygame.quit()
-                hero, level_x, level_y, screen, clock = show(levels[lv_id])
+                hero, monsters, level_x, level_y, screen, clock = show(levels[lv_id])
     tiles_group.draw(screen)
     obstacle_group.draw(screen)
     entity_group.draw(screen)
