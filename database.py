@@ -79,9 +79,9 @@ class Database:
 
 
 # # Пример. Создаём базу с парочкой игроков.
-Players = Database('players.sqlite')
-Players.cur.execute('DELETE from scores')
-Players.db.commit()
+# Players = Database('players.sqlite')
+# Players.cur.execute('DELETE from scores')
+# Players.db.commit()
 # Players.new_table('scores', 'id INTEGER PRIMARY KEY', 'name TEXT NOT NULL', 'score INTEGER')
 # Players.insert('scores', ('id', 'name', 'score'), ('1', 'Steve', '2000'))
 # Players.insert('scores', ('id', 'name', 'score'), ('2', 'Alex', '1500'))

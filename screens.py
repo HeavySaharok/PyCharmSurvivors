@@ -2,6 +2,7 @@ import sys
 import pygame
 from database import Database
 from our_tools import load_image
+from start_screen import start_screen
 
 
 def terminate():
@@ -63,7 +64,7 @@ def result_screen(player_name: str):
     pygame.draw.line(screen, 'White', (30, 30), (30, 360), 3)
     pygame.draw.line(screen, 'White', (130, 30), (130, 360), 3)
     pygame.draw.line(screen, 'White', (230, 30), (230, 360), 3)
-    congrats = f'Вы знаяли {unique + 1} место!!!'
+    congrats = f'Вы заняли {unique + 1} место!!!'
     cong_ot = font.render(congrats, 1, pygame.Color('Red'))
     cong_rec = cong_ot.get_rect()
     cong_rec.y = 5

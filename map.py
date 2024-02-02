@@ -61,11 +61,19 @@ class Map:
                     self.level[y][x] = '.'
                 elif self.level[y][x] == 'D':
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
-                                                      (x * tile_width, (y + 4) * tile_height)))
+                                                      (x * tile_width, (y + 2) * tile_height)))
+                    self.level[y][x] = '.'
+                elif self.level[y][x] == 'U':
+                    self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
+                                                      (x * tile_width, (y - 2) * tile_height)))
                     self.level[y][x] = '.'
                 elif self.level[y][x] == 'R':
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
-                                                      ((x + 4) * tile_width, y * tile_height)))
+                                                      ((x + 2) * tile_width, y * tile_height)))
+                    self.level[y][x] = '.'
+                elif self.level[y][x] == 'L':
+                    self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
+                                                      ((x - 2) * tile_width, y * tile_height)))
                     self.level[y][x] = '.'
         # возвращение игрока, монстров
         return new_player, self.monsters, x, y

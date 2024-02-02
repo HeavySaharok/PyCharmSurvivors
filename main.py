@@ -17,7 +17,7 @@ running = True
 lv_id, username = start_screen(3, '')
 score = 0
 bounty = 5000
-levels = ['test.map', '2.map', '3.map']
+levels = ['1.map', '2.map', '3.map']
 lev_done = 0
 
 

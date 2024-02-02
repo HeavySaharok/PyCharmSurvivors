@@ -22,8 +22,8 @@ class Levels:
                 c += 1
                 font = pygame.font.Font(None, 40)
                 scr.blit(font.render(str(c) + '.lvl', True, pygame.Color(123, 104, 238)),
-                           (x * self.cell_size * 1.45 + 68,
-                            (y - 1) * self.cell_size + self.top + 45, self.cell_size, self.cell_size))
+                         (x * self.cell_size * 1.45 + 68,
+                          (y - 1) * self.cell_size + self.top + 45, self.cell_size, self.cell_size))
                 rect = pygame.draw.rect(scr, pygame.Color(0, 255, 0), (
                     x * self.cell_size * 1.45 + 50, (y - 1) * self.cell_size + self.top, self.cell_size,
                     self.cell_size), 3)
@@ -33,7 +33,8 @@ class Levels:
     def get_cell(self, mouse_pos):
         num_lvl = 0
         for i in range(len(self.rects)):
-            if (self.rects[i][0][0] <= mouse_pos[0] <= self.rects[i][1][0]) and (self.rects[i][0][1] <= mouse_pos[1] <= self.rects[i][2][1]):
+            if (self.rects[i][0][0] <= mouse_pos[0] <= self.rects[i][1][0]) and (
+                    self.rects[i][0][1] <= mouse_pos[1] <= self.rects[i][2][1]):
                 num_lvl = i + 1
 
         return num_lvl
@@ -81,7 +82,6 @@ def start_screen(lvl, username):
     color_passive = pygame.Color("#006400")
     active = False
 
-
     levels = Levels(lvl // 3, lvl // (lvl // 3), username)
 
     while True:
@@ -127,10 +127,9 @@ def start_screen(lvl, username):
 
 ll = 15
 WIDTH, HEIGHT = size = 640, 900
-print(HEIGHT)
 pygame.init()
 FPS = 50
-# os.environ['SDL_VIDEO_CENTERED'] = '1'
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('PyCharm Survivors')
 
