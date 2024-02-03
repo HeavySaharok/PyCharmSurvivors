@@ -178,7 +178,7 @@ class MovingEntity(Entity):
         super().__init__(load_image('moving_error.png'), 1, 1, x, y)
         error_group.add(self)
         point_a = (x, y)
-        self.x0, self.x1 = (point_a[0], point_b[0]) if point_a[0] > point_b[0] else (point_b[0], point_a[0])
+        self.x0, self.x1 = (point_a[0], point_b[0]) if point_a[0] < point_b[0] else (point_b[0], point_a[0])
         self.y0, self.y1 = (point_a[1], point_b[1]) if point_a[1] > point_b[1] else (point_b[1], point_a[1])
         self.spd = spd
         self.hitbox = (self.rect.x, self.rect.y, 32, 32)
@@ -188,14 +188,15 @@ class MovingEntity(Entity):
     def move(self):
         x = self.rect.x
         y = self.rect.y
-        if self.dir_y:
-            if y >= self.y0:
-                self.dir_y = False
-            self.rect.y += self.spd
-        else:
-            if y <= self.y1:
-                self.dir_y = True
-            self.rect.y -= self.spd
+        if self.y0 - self.y1:
+            if self.dir_y:
+                if y >= self.y0:
+                    self.dir_y = False
+                self.rect.y += self.spd
+            else:
+                if y <= self.y1:
+                    self.dir_y = True
+                self.rect.y -= self.spd
 
         if self.x0 - self.x1:
             if self.dir_x:
