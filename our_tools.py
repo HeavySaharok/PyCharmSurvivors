@@ -11,7 +11,7 @@ def load_image(name, color_key=None):
     Функция для загрузки картинок
     :param name: название файла без "data"
     :param color_key: Игнорирование цвета
-    :return: Возвращает картинку
+    :return: возвращает картинку
     """
     fullname = os.path.join('data', name)
     try:
@@ -29,24 +29,23 @@ def load_image(name, color_key=None):
     return image
 
 
-def collision_test(rect, tiles):
+def collision_test(obj, tiles, mask=False):
     """
     Функция для откработки коллизии
-    :param rect: кто касается
+    :param obj: кто касается
     :param tiles: кого должны коснуться
+    :param mask: использовать режим маски? Нужен для более крутого колайда, но нельзя использовать на стенках
     :return: кого коснулись
     """
     hit_list = []
-    for tile in tiles:
-        if rect.colliderect(tile):
-            hit_list.append(tile)
-    return hit_list
-
-
-def next_level(name_level):
-    """
-    Должен загружать следующий уровень
-    :param name_level: название уровня
-    :return:
-    """
-    pass
+    if mask:
+        for tile in tiles:
+            if pygame.sprite.collide_mask(obj, tile):
+                hit_list.append(tile)
+        return hit_list
+    else:
+        for tile in tiles:
+            rect = obj.rect
+            if rect.colliderect(tile):
+                hit_list.append(tile)
+        return hit_list
