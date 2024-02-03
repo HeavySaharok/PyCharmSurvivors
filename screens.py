@@ -2,7 +2,6 @@ import sys
 import pygame
 from database import Database
 from our_tools import load_image
-from start_screen import start_screen
 
 
 def terminate():
@@ -21,7 +20,7 @@ def result_screen(player_name: str):
     :return:
     """
     pygame.init()
-    unique = 0
+    unique = -2
     size = 630, 360
     screen = pygame.display.set_mode(size)
     fon = load_image('result_screen.png')
@@ -64,7 +63,10 @@ def result_screen(player_name: str):
     pygame.draw.line(screen, 'White', (30, 30), (30, 360), 3)
     pygame.draw.line(screen, 'White', (130, 30), (130, 360), 3)
     pygame.draw.line(screen, 'White', (230, 30), (230, 360), 3)
-    congrats = f'Вы заняли {unique + 1} место!!!'
+    if unique != -2:
+        congrats = f'Вы заняли {unique + 1} место!!!'
+    else:
+        congrats = 'Вы не попали в топ 10!'
     cong_ot = font.render(congrats, 1, pygame.Color('Red'))
     cong_rec = cong_ot.get_rect()
     cong_rec.y = 5
@@ -82,7 +84,7 @@ def result_screen(player_name: str):
 def level_cleared(score: int):
     """
     Выводит поздравление с прохождением уровня и показывает кол-во очков.
-    :param score: кол-во очков ирока
+    :param score: Кол-во очков ирока
     :return:
     """
     pygame.init()
