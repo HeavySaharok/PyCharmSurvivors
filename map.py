@@ -53,25 +53,25 @@ class Map:
         # Создание монстров
         for y in range(len(self.level)):
             for x in range(len(self.level[y])):
-                if self.level[y][x] == 'W':
+                if self.level[y][x] == 'W':  # Медленный баг
                     self.monsters.append(WarningEntity(x * tile_width, y * tile_height, new_player))
                     self.level[y][x] = '.'
-                elif self.level[y][x] == 'E':
+                elif self.level[y][x] == 'E':  # Быстрый баг
                     self.monsters.append(ErrorEntity(x * tile_width, y * tile_height, new_player))
                     self.level[y][x] = '.'
-                elif self.level[y][x] == 'D':
+                elif self.level[y][x] == 'D':  # Движущийся вниз
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
                                                       (x * tile_width, (y + 2) * tile_height)))
                     self.level[y][x] = '.'
-                elif self.level[y][x] == 'U':
+                elif self.level[y][x] == 'U':  # Движущийся вверх
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
                                                       (x * tile_width, (y - 2) * tile_height)))
                     self.level[y][x] = '.'
-                elif self.level[y][x] == 'R':
+                elif self.level[y][x] == 'R':  # Движущийся вправо
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
                                                       ((x + 2) * tile_width, y * tile_height)))
                     self.level[y][x] = '.'
-                elif self.level[y][x] == 'L':
+                elif self.level[y][x] == 'L':  # Движущийся влево
                     self.monsters.append(MovingEntity(x * tile_width, y * tile_height,
                                                       ((x - 2) * tile_width, y * tile_height)))
                     self.level[y][x] = '.'

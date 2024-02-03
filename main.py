@@ -1,12 +1,10 @@
 import pygame.time
 
-from map import load_level, Map
 from entities import entity_group
+from map import load_level, Map
 from our_tools import all_sprites
-from start_screen import *
 from screens import *
 from tiles import tiles_group, obstacle_group, finish_group, error_group
-from database import Database
 
 FPS = 60
 
