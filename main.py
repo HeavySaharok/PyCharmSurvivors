@@ -4,6 +4,7 @@ from entities import entity_group
 from map import load_level, Map
 from our_tools import all_sprites
 from screens import *
+from start_screen import start_screen
 from tiles import tiles_group, obstacle_group, finish_group, error_group
 
 FPS = 60
@@ -45,8 +46,7 @@ def show(level_name):
     # экран
     sc = pygame.display.set_mode(mape.size)
     pygame.display.set_caption(level_name)
-    h, monsters, lx, ly = mape.generate_level()
-    return h, monsters, lx, ly, sc, pygame.time.Clock()
+    return mape.generate_level() + (sc, pygame.time.Clock())
 
 
 hero, monsters, level_x, level_y, screen, clock = show(levels[lv_id])

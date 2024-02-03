@@ -14,8 +14,8 @@ class Database:
 
     def insert(self, tab_name: str, fields: tuple, values: tuple):
         """
-         Функция что бы добавить новый объект в базу.
-        :param tab_name: название таблицы
+         Функция, что бы добавить новый объект в базу.
+        :param tab_name: Название таблицы
         :param fields: названия полей, в которые вставляем значения
         :param values: сами значения
         """
@@ -36,11 +36,11 @@ class Database:
     def get_val(self, tab_name: str, column: str, condition=''):
         """
         Получаем значения из таблицы по заданным условиям. Сомневаюсь, что будем ей пользоваться т.к. условия, как
-        правило, слишком сложные что бы запихнуть их в 1 строку.
-        :param tab_name: название таблицы
-        :param column: колонка, из которой забираем значение
-        :param condition: условие, при котором забираем значение
-        :return: кортеж с данными(вроде как)
+        правило, слишком сложные, что бы запихнуть их в 1 строку.
+        :param tab_name: Название таблицы
+        :param column: Колонка с забираемым значением
+        :param condition: Условие, при котором забираем значение
+        :return: Кортеж с данными(вроде как)
         """
         if not condition:
             return self.cur.execute(f'SELECT {column} from {tab_name}').fetchall()
@@ -51,8 +51,8 @@ class Database:
     def remove(self, tab_name: str, condition: str):
         """
         Удаляем поле таблицы, удовлетворяющее требованиям. Оставьте condition пустым, если хотите очистить таблицу.
-        :param tab_name: название таблицы.
-        :param condition: условие, при котором убираем значение.
+        :param tab_name: Название таблицы.
+        :param condition: Условие, при котором убираем значение.
         :return: None
         """
         if condition:
@@ -61,9 +61,9 @@ class Database:
     def update_score(self, tabname: str, name: str, score: int):
         """
         Обновляем очки в таблице.
-        :param tabname: название таблицы.
-        :param name: имя игрока для обновления
-        :param score: новый результат
+        :param tabname: Название таблицы.
+        :param name: Имя игрока для обновления
+        :param score: Новый результат
         :return:
         """
         if name in list(map(lambda x: list(x)[0], self.get_val(tabname, 'name'))):

@@ -77,5 +77,3 @@ class Map:
                     self.level[y][x] = '.'
         # возвращение игрока, монстров
         return new_player, self.monsters, x, y
-
-
