@@ -1,7 +1,7 @@
 import os
 import pygame
 
-all_sprites = pygame.sprite.Group()  # специально группа тут, чтобы не было цикличного импортирования
+all_sprites = pygame.sprite.Group()  # специально группа тут, чтобы не было цикличного импортирования.
 pygame.init()
 pygame.display.set_mode((600, 400))
 
